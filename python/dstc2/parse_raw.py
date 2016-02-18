@@ -11,8 +11,8 @@ import json
 import sys
 import time
 
-#import num2word;
-#n2w = num2word.Num2Word();
+import num2word;
+n2w = num2word.Num2Word();
 
 time_pattern = re.compile(r'(\d+):(\d+)( [ap]m)?');
 ampm_pattern = re.compile(r' [ap] m?');
@@ -100,9 +100,6 @@ def parse_data_split(input_directory, list_file_path, output_file_path, mapping_
                                 mapping_value = re.sub(multiple_spaces, " ", mapping_value);
                                 value_slot_mapping[mapping_value] = mapping_slot
                                 
-                                if session_id=="dt-201112311705-33103" and turn_index==19:
-                                    print "checkpoint 0:", value_slot_mapping
-                                    
                                 text_mapping_value = " ";
                                 for mapping_value_token in ("%s" % mapping_value).split():
                                     if mapping_value_token.isdigit():
@@ -116,9 +113,6 @@ def parse_data_split(input_directory, list_file_path, output_file_path, mapping_
                                         mapping_slot = " %s" % mapping_slot
                                     value_slot_mapping[text_mapping_value] = mapping_slot
                                     
-                                if session_id=="dt-201008052256-07038" and turn_index==10:
-                                    print "checkpoint 0:", value_slot_mapping
-                    
                     for mapping_value in sorted(value_slot_mapping, key=lambda key: len("%s" % key), reverse=True):
                         system_transcript = system_transcript.replace(mapping_value, value_slot_mapping[mapping_value]);
                 
@@ -144,52 +138,52 @@ def parse_data_split(input_directory, list_file_path, output_file_path, mapping_
 
                     value_slot_mapping = {};
                     
-                    assert len(turn['input']['live']['slu-hyps'][0]['slu-hyp'])==1, (session_id, turn_index);
-                    assert len(turn['input']['live']['slu-hyps'][0]['slu-hyp'][0])==2, (session_id, turn_index);
-
-                    for slot_index in xrange(len(turn['input']['live']['slu-hyps'][0]['slu-hyp'][0]['slots'])):
-                        assert len(turn['input']['live']['slu-hyps'][0]['slu-hyp'][0]['slots'][slot_index])==2;
-                            
-                        if turn['input']['live']['slu-hyps'][0]['slu-hyp'][0]['slots'][slot_index][1]==None:
-                            continue;
-                        if turn['input']['live']['slu-hyps'][0]['slu-hyp'][0]['slots'][slot_index][1]=="act":
-                            continue;
-                            
-                        mapping_value = ("%s" % turn['input']['live']['slu-hyps'][0]['slu-hyp'][0]['slots'][slot_index][1]).lower();
-                        mapping_slot = turn['input']['live']['slu-hyps'][0]['slu-hyp'][0]['slots'][slot_index][0];
-                        
-                        if mapping_value.isalpha() and mapping_slot=="route":
-                            continue;
-
-                        if "time" in mapping_slot:
-                            mapping_slot = "<time> ";
-                        elif "date" in mapping_slot:
-                            if "absmonth" in mapping_slot:
-                                mapping_value = month_dictionary[int(mapping_value)-1];
-                            mapping_slot = "<date> ";
-                        else:
-                            mapping_slot = "<%s> " % mapping_slot.split(".")[-1];
-
-                        if (mapping_value in value_slot_mapping) and (value_slot_mapping[mapping_value]!=mapping_slot):
-                            print session_id, turn_index, mapping_value, value_slot_mapping[mapping_value], mapping_slot
-                        else:
-                            value_slot_mapping[mapping_value] = mapping_slot;
-                            
-                            mapping_value = re.sub(post_route_pattern, " \\1 \\2 ", mapping_value).strip();
-                            mapping_value = re.sub(pre_route_pattern, " \\1 \\2 ", mapping_value).strip();
-                            mapping_value = re.sub(multiple_spaces, " ", mapping_value);
-                            value_slot_mapping[mapping_value] = mapping_slot
-
-                            text_mapping_value = "";
-                            for mapping_value_token in mapping_value.split():
-                                if mapping_value_token.isdigit():
-                                    text_mapping_value += "%s " % n2w.to_cardinal(int(mapping_value_token));
-                                else:
-                                    text_mapping_value += "%s " % mapping_value_token;
-                            text_mapping_value = text_mapping_value.strip();
-                            if len(text_mapping_value)>0:
-                                value_slot_mapping[text_mapping_value] = mapping_slot
+                    '''
+                    if len(turn['input']['live']['slu-hyps'][0]['slu-hyp'])==0:
+                        continue;
                     
+                    print dialog_file_path, type(turn['input']['live']['slu-hyps'][0]['slu-hyp']), len(turn['input']['live']['slu-hyps'][0]['slu-hyp']), turn['input']['live']['slu-hyps'][0]['slu-hyp']
+                    assert len(turn['input']['live']['slu-hyps'][0]['slu-hyp'])==1, (session_id, turn_index);
+                    '''
+                    
+                    for slu_hyp_index in xrange(len(turn['input']['live']['slu-hyps'][0]['slu-hyp'])):
+                        assert len(turn['input']['live']['slu-hyps'][0]['slu-hyp'][slu_hyp_index])==2, (session_id, turn_index);
+                        for slot_index in xrange(len(turn['input']['live']['slu-hyps'][0]['slu-hyp'][slu_hyp_index]['slots'])):
+                            assert len(turn['input']['live']['slu-hyps'][0]['slu-hyp'][slu_hyp_index]['slots'][slot_index])==2;
+                                
+                            if turn['input']['live']['slu-hyps'][0]['slu-hyp'][slu_hyp_index]['slots'][slot_index][1]==None:
+                                continue;
+                            if turn['input']['live']['slu-hyps'][0]['slu-hyp'][slu_hyp_index]['slots'][slot_index][1]=="act":
+                                continue;
+                                
+                            mapping_value = ("%s" % turn['input']['live']['slu-hyps'][0]['slu-hyp'][slu_hyp_index]['slots'][slot_index][1]).lower();
+                            mapping_slot = turn['input']['live']['slu-hyps'][0]['slu-hyp'][slu_hyp_index]['slots'][slot_index][0];
+                            #print mapping_slot, mapping_value
+                            
+                            if mapping_slot=="this":
+                                continue;
+                            mapping_slot = "<%s> " % mapping_slot;
+    
+                            if (mapping_value in value_slot_mapping) and (value_slot_mapping[mapping_value]!=mapping_slot):
+                                print session_id, turn_index, value_slot_mapping[mapping_value], mapping_slot, mapping_value
+                            else:
+                                value_slot_mapping[mapping_value] = mapping_slot;
+                                
+                                mapping_value = re.sub(post_route_pattern, " \\1 \\2 ", mapping_value).strip();
+                                mapping_value = re.sub(pre_route_pattern, " \\1 \\2 ", mapping_value).strip();
+                                mapping_value = re.sub(multiple_spaces, " ", mapping_value);
+                                value_slot_mapping[mapping_value] = mapping_slot
+    
+                                text_mapping_value = "";
+                                for mapping_value_token in mapping_value.split():
+                                    if mapping_value_token.isdigit():
+                                        text_mapping_value += "%s " % n2w.to_cardinal(int(mapping_value_token));
+                                    else:
+                                        text_mapping_value += "%s " % mapping_value_token;
+                                text_mapping_value = text_mapping_value.strip();
+                                if len(text_mapping_value)>0:
+                                    value_slot_mapping[text_mapping_value] = mapping_slot
+                        
                     for mapping_value in sorted(value_slot_mapping, key=lambda key: len("%s" % key), reverse=True):
                         user_transcript = user_transcript.replace(mapping_value, value_slot_mapping[mapping_value]);
                     
