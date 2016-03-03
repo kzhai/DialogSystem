@@ -1,0 +1,53 @@
+#!/bin/bash
+
+PROJECT_HOME=$HOME/Workspace/DialogStateTracking/
+PROJECT_HOME_SRC=$PROJECT_HOME/src/
+
+VW_HOME=$HOME/Workspace/vowpal_wabbit/
+VW_BINARY=$VW_HOME/vowpalwabbit/vw
+
+TEMP_DIRECTORY=$HOME/temp.$RANDOM
+
+if [ $# == 2 ]; then
+	DATA_DIRECTORY=$1
+	#DATA_DIRECTORY=$(grealpath $1)
+	NUMBER_OF_CLASSES=$2
+	MODEL_FILE=$TEMP_DIRECTORY/model	
+elif [ $# == 3 ]; then
+    DATA_DIRECTORY=$1
+	#DATA_DIRECTORY=$(grealpath $1)
+	NUMBER_OF_CLASSES=$2
+	MODEL_FILE=$(grealpath $2)
+else
+    echo "usage: train_and_test.sh DATA_DIRECTORY NUMBER_OF_CLASSES MODEL_FILE"
+    exit
+fi
+
+mkdir $TEMP_DIRECTORY
+
+cp $DATA_DIRECTORY/* $TEMP_DIRECTORY/
+
+TEMP_TRAIN_FILE=$TEMP_DIRECTORY/train.dat
+TEMP_TEST_FILE=$TEMP_DIRECTORY/test.dat
+TEMP_LABLE_TO_INDEX=$TEMP_DIRECTORY/label2index
+
+TEMP_TRAIN_CACHE=$TEMP_DIRECTORY/train.cache
+cat $TEMP_TRAIN_FILE | gshuf | $VW_BINARY --cache_file $TEMP_TRAIN_CACHE -k -c -f $MODEL_FILE --passes 100 -b 25 --compressed --csoaa $NUMBER_OF_CLASSES
+
+TEMP_TEST_GROUNDTRUTH=$TEMP_DIRECTORY/test.groundtruth
+cat $TEMP_TEST_FILE | cut -d'|' -f1 > $TEMP_TEST_GROUNDTRUTH
+
+TEMP_TEST_PREDICTION=$TEMP_DIRECTORY/test.prediction
+$VW_BINARY -t $TEMP_TEST_FILE -i $MODEL_FILE -p $TEMP_TEST_PREDICTION
+
+python $PROJECT_HOME_SRC/vw/print_confusion_matrix.py $TEMP_TEST_GROUNDTRUTH $TEMP_TEST_PREDICTION $TEMP_LABLE_TO_INDEX
+
+#paste $TEMP_TEST_GROUNDTRUTH $TEMP_TEST_PREDICTED | sed 's/\.[0-9]*//' > $TEMP_TEST_COMPARISON
+
+#python $PROJECT_HOME_SRC/vw/print_confusion_matrix.py $TEMP_TEST_COMPARISON
+
+#DENOMINATOR=$(cat $TEMP_TEST_COMPARISON | wc -l)
+#NUMERATOR=$(cat $TEMP_TEST_COMPARISON | awk '{if($1==$2){print $0}}' | wc -l)
+#echo "accuracy: $NUMERATOR / $DENOMINATOR"
+
+#rm -rf $TEMP_DIRECTORY

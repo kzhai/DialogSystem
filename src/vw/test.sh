@@ -1,0 +1,35 @@
+#!/bin/bash
+
+BROADWAY_HOME=$HOME/Workspace/Broadway/
+BROADWAY_PYTHON_HOME=$BROADWAY_HOME/python/
+
+VW_HOME=$HOME/Workspace/vowpal_wabbit/
+VW_BINARY=$VW_HOME/vowpalwabbit/vw
+
+if [ $# != 2 ]; then
+    echo "usage: test.sh MODEL_FILE DATA_DIRECTORY"
+    exit
+fi
+
+MODEL_FILE=$(grealpath $1)
+DATA_DIRECTORY=$(grealpath $2)
+
+TEMP_DIRECTORY=$HOME/temp.$RANDOM
+mkdir $TEMP_DIRECTORY
+
+cp $DATA_DIRECTORY/* $TEMP_DIRECTORY/
+
+TEMP_TEST_FILE=$TEMP_DIRECTORY/test.dat
+TEMP_LABLE_TO_INDEX=$TEMP_DIRECTORY/label2index
+
+TEMP_TEST_GROUNDTRUTH=$TEMP_DIRECTORY/test.groundtruth
+cat $TEMP_TEST_FILE | cut -d'|' -f1 > $TEMP_TEST_GROUNDTRUTH
+
+TEMP_TEST_PREDICTION=$TEMP_DIRECTORY/test.prediction
+$VW_BINARY -t $TEMP_TEST_FILE -i $MODEL_FILE -p $TEMP_TEST_PREDICTION
+
+python $BROADWAY_PYTHON_HOME/vw/print_confusion_matrix.py $TEMP_TEST_GROUNDTRUTH $TEMP_TEST_PREDICTION $TEMP_LABLE_TO_INDEX
+
+paste $TEMP_TEST_GROUNDTRUTH $TEMP_TEST_PREDICTION > $TEMP_DIRECTORY/test.groundtruth+prediction
+
+#rm -rf $TEMP_DIRECTORY

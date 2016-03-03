@@ -23,9 +23,9 @@ pre_route_pattern = re.compile(r'(\D?)(\d+)');
 multiple_spaces = re.compile(r' +');
 # singleton_pattern = re.compile(r' [^ai] ');
 
-#month_dictionary = ['january', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november', 'december'];
+# month_dictionary = ['january', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november', 'december'];
 
-def parse(input_directory, config_directory, output_directory, mapping_semantics=False):
+def parse(input_directory, config_directory, output_directory, mapping_semantics=True):
     train_list_file = os.path.join(config_directory, "dstc2_train.flist")
     train_output_file = os.path.join(output_directory, "train.dat")
     parse_data_split(input_directory, train_list_file, train_output_file, mapping_semantics);
@@ -74,7 +74,7 @@ def parse_data_split(input_directory, list_file_path, output_file_path, mapping_
                     
                     assert "act" in turn['output']['dialog-acts'][act_index]
                     system_act = turn['output']['dialog-acts'][act_index]["act"].strip();
-                    assert len(system_act.split())==1
+                    assert len(system_act.split()) == 1
                     system_acts.add(system_act);
                     
                     assert "slots" in turn['output']['dialog-acts'][act_index]
@@ -87,8 +87,7 @@ def parse_data_split(input_directory, list_file_path, output_file_path, mapping_
                             assert len(mapping_slot.split()) == 1;
                             mapping_slot = "<%s>" % mapping_slot;
 
-                            mapping_value = turn['output']['dialog-acts'][act_index]["slots"][slot_index][1].lower().strip();
-                            # mapping_value = ("%s" % (turn['output']['dialog-acts'][act_index]["slots"][slot_index][1])).lower();
+                            mapping_value = ("%s" % turn['output']['dialog-acts'][act_index]["slots"][slot_index][1]).lower().strip();
                             mapping_value = re.sub(multiple_spaces, " ", mapping_value);
                             
                             if (mapping_value in value_slot_mapping) and (value_slot_mapping[mapping_value] != mapping_slot):
@@ -122,7 +121,7 @@ def parse_data_split(input_directory, list_file_path, output_file_path, mapping_
                     
                     assert "act" in turn['input']['live']['slu-hyps'][0]['slu-hyp'][slu_hyp_index]
                     user_act = turn['input']['live']['slu-hyps'][0]['slu-hyp'][slu_hyp_index]['act'].strip()
-                    assert len(user_act.split())==1;
+                    assert len(user_act.split()) == 1;
                     user_acts.add(user_act);
                     
                     assert "slots" in turn['input']['live']['slu-hyps'][0]['slu-hyp'][slu_hyp_index]
@@ -137,7 +136,7 @@ def parse_data_split(input_directory, list_file_path, output_file_path, mapping_
                                 continue;
                             mapping_slot = "<%s>" % mapping_slot;
                             
-                            mapping_value = turn['input']['live']['slu-hyps'][0]['slu-hyp'][slu_hyp_index]['slots'][slot_index][1].lower().strip();
+                            mapping_value = ("%s" % turn['input']['live']['slu-hyps'][0]['slu-hyp'][slu_hyp_index]['slots'][slot_index][1]).lower().strip();
                             mapping_value = re.sub(multiple_spaces, " ", mapping_value);
                             
                             if (mapping_value in value_slot_mapping) and (value_slot_mapping[mapping_value] != mapping_slot):
