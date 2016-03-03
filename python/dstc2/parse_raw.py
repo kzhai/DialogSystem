@@ -23,16 +23,23 @@ pre_route_pattern = re.compile(r'(\D?)(\d+)');
 multiple_spaces = re.compile(r' +');
 # singleton_pattern = re.compile(r' [^ai] ');
 
-month_dictionary = ['january', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november', 'december'];
+#month_dictionary = ['january', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november', 'december'];
 
 def parse(input_directory, config_directory, output_directory, mapping_semantics=False):
     train_list_file = os.path.join(config_directory, "dstc2_train.flist")
     train_output_file = os.path.join(output_directory, "train.dat")
     parse_data_split(input_directory, train_list_file, train_output_file, mapping_semantics);
+    print "successfully parsed train data..."
     
     dev_list_file = os.path.join(config_directory, "dstc2_dev.flist")
     dev_output_file = os.path.join(output_directory, "dev.dat")
     parse_data_split(input_directory, dev_list_file, dev_output_file, mapping_semantics);
+    print "successfully parsed dev data..."
+    
+    train_list_file = os.path.join(config_directory, "dstc2_test.flist")
+    train_output_file = os.path.join(output_directory, "test.dat")
+    parse_data_split(input_directory, train_list_file, train_output_file, mapping_semantics);
+    print "successfully parsed test data..."
     
 def parse_data_split(input_directory, list_file_path, output_file_path, mapping_semantics):
     list_file_stream = open(list_file_path, 'r');
