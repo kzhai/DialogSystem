@@ -23,7 +23,10 @@ def print_confusion_matrix(groundtruth_label_file, prediction_label_file, label_
         label_to_index[int(tokens[1])] = tokens[0];
     
     number_of_classes = len(label_to_index);
+    #groundtruth_label_matrix = numpy.zeros((0, number_of_classes));
+    #prediction_label_matrix = numpy.zeros((0, number_of_classes));
     confusion_matrix = numpy.zeros((number_of_classes, number_of_classes), dtype=int);
+    
     groundtruth_label_stream = open(groundtruth_label_file, 'r');
     prediction_label_stream = open(prediction_label_file, 'r');
     while True:
@@ -45,7 +48,7 @@ def print_confusion_matrix(groundtruth_label_file, prediction_label_file, label_
             sys.exit()
         else:
             pass
-                
+            
         groundtruth_label = int(groundtruth_line.split()[0]);
         prediction_label = int(float(prediction_line.split()[0]));
         

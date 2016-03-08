@@ -62,20 +62,20 @@ def extract_feature_vectors_for_directory(input_directory, output_directory, kb_
     label_index_count_file = os.path.join(output_directory, "label2index");
     label_index_count = extract_label_information(training_data_file, label_index_count_file);
     
-    input_file_path = os.path.join(input_directory, "train.dat");
-    output_file_path = os.path.join(output_directory, "train.dat");
-    extract_feature_vectors_for_file(input_file_path, output_file_path, label_index_count, inverse_weighted=inverse_weighted);
-    print "successfully extract features for %s..." % "train.dat";
-    
-    input_file_path = os.path.join(input_directory, "dev.dat");
-    output_file_path = os.path.join(output_directory, "dev.dat");
-    extract_feature_vectors_for_file(input_file_path, output_file_path, label_index_count, inverse_weighted=inverse_weighted);
-    print "successfully extract features for %s..." % "dev.dat";
+    for file_name in os.listdir(input_directory):
+        if file_name.startswith("."):
+            continue;
         
-    input_file_path = os.path.join(input_directory, "test.dat");
-    output_file_path = os.path.join(output_directory, "test.dat");
-    extract_feature_vectors_for_file(input_file_path, output_file_path, label_index_count, inverse_weighted=False);  # kb_allgrams_dict, lm_dict, 
-    print "successfully extract features for %s..." % "test.dat";
+        input_file_path = os.path.join(input_directory, file_name);
+        if os.path.isdir(input_file_path):
+            continue;
+        
+        output_file_path = os.path.join(output_directory, file_name);
+        if file_name=="train.dat":
+            extract_feature_vectors_for_file(input_file_path, output_file_path, label_index_count, inverse_weighted=inverse_weighted);
+        else:
+            extract_feature_vectors_for_file(input_file_path, output_file_path, label_index_count, inverse_weighted=False);
+        print "successfully extract features for %s..." % file_name;
 
 def extract_feature_vectors_for_file(input_file_path, output_file_path, label_index_count, inverse_weighted=True, multi_label_setting=True):  # kb_allgrams_dict, lm_dict, 
     label_to_index, index_to_label, index_to_counts = label_index_count;
