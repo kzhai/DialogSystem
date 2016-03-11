@@ -49,4 +49,4 @@ do
 	
 done
 
-#rm -rf $TEMP_DIRECTORY
+rm -rf $TEMP_DIRECTORY
