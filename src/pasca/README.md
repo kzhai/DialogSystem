@@ -1,9 +1,9 @@
 Pasca
 ==========
 
-Pasca is a naive python implementation of the work by Paşca (2007).
+Pasca is a naive python implementation of the work by Paşca (2007) on weakly-supervised named entity recognition framework. Feel free to consult the following reference for more details.
 
-	Paşca, Marius. "Weakly-supervised discovery of named entities using web search queries." Proceedings of the sixteenth ACM conference on Conference on information and knowledge management (CIKM). ACM, 2007.
+Paşca, Marius. "Weakly-supervised discovery of named entities using web search queries." Proceedings of the sixteenth ACM conference on Conference on information and knowledge management (CIKM). ACM, 2007.
 
 Launch and Execute
 ----------
