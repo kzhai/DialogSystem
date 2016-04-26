@@ -1,6 +1,6 @@
 #!/bin/bash
 
-PROJECT_HOME=$HOME/Workspace/DialogStateTracking/
+PROJECT_HOME=$HOME/Workspace/DialogSystem/
 PROJECT_HOME_SRC=$PROJECT_HOME/src/
 
 VW_HOME=$HOME/Workspace/vowpal_wabbit/

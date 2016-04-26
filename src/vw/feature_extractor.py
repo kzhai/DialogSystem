@@ -17,8 +17,8 @@ import contextual_positional_features
 # import kb_allgrams_exist_lookup_features;
 # import lm_features;
 
-transcript_index = 4
-act_index = 5
+transcript_index = 0
+act_index = 1
 weight_index = -1
 
 def import_feature_descriptions(feature_description_file_path):

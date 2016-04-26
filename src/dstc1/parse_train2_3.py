@@ -11,8 +11,8 @@ import json
 import sys
 import time
 
-from parse_util import parse_system_transcripts
-from parse_util import parse_user_transcripts
+from parse_util import parse_system_transcripts_from_log
+from parse_util import parse_user_transcripts_from_log
 
 #import num2word;
 #n2w = num2word.Num2Word();
@@ -36,7 +36,7 @@ def parse(input_directory, output_file, mapping_semantics=False):
             
             debug_info = (session_id, turn_index)
             
-            system_transcript, system_acts = parse_system_transcripts(turn, mapping_semantics, debug_info);
+            system_transcript, system_acts = parse_system_transcripts_from_log(turn, mapping_semantics, debug_info);
             
     
             assert "input" in turn, (session_id, turn_index, turn)
@@ -44,7 +44,7 @@ def parse(input_directory, output_file, mapping_semantics=False):
             assert "asr-hyps" in turn['input']['live'], (session_id, turn_index, turn['input']['live'])
             assert "slu-hyps" in turn['input']['live'], (session_id, turn_index, turn['input']['live'])
     
-            user_transcript, user_acts = parse_user_transcripts(turn, mapping_semantics, debug_info);
+            user_transcript, user_acts = parse_user_transcripts_from_log(turn, mapping_semantics, debug_info);
             
             #output_stream.write("%s\t%d\t%s\t%s\n" % (session_id, turn_index, system_transcript, user_transcript));
             output_stream.write("%s\t%d\t%s\t%s\t%s\t%s\n" % (session_id, turn_index, system_transcript, " ".join(system_acts), user_transcript, " ".join(user_acts)));
