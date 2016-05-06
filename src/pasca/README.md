@@ -1,4 +1,4 @@
-Pasca
+Paşca
 ==========
 
 Pasca is a naive python implementation of the work by Paşca (2007) on weakly-supervised named entity recognition framework. Feel free to consult the following reference for more details.
