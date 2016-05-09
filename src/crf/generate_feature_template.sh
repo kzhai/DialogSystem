@@ -1,0 +1,56 @@
+#!/bin/bash
+
+DATA_DIRECTORY=$1
+FEATURE_DESCRIPTION_FILE=$DATA_DIRECTORY/feature.description
+NUMBER_OF_FEATURES=$(cat $FEATURE_DESCRIPTION_FILE | wc -l )
+
+echo "# bigram"
+echo
+
+echo "B"
+echo
+
+echo "# unigram"
+echo
+
+FEATURE_INDEX=1
+
+echo "# current word"
+for (( FEATURE_DIMENSION=0; FEATURE_DIMENSION<$NUMBER_OF_FEATURES; FEATURE_DIMENSION++ ))
+	do
+    	echo "U$FEATURE_INDEX:%x[0,$FEATURE_DIMENSION]"
+    	FEATURE_INDEX=$((FEATURE_INDEX+1))
+	done
+echo
+
+echo "# previous word"
+for (( FEATURE_DIMENSION=0; FEATURE_DIMENSION<$NUMBER_OF_FEATURES; FEATURE_DIMENSION++ ))
+	do
+    	echo "U$FEATURE_INDEX:%x[-1,$FEATURE_DIMENSION]"
+    	FEATURE_INDEX=$((FEATURE_INDEX+1))
+	done
+echo
+
+echo "# previous previous word"
+for (( FEATURE_DIMENSION=0; FEATURE_DIMENSION<$NUMBER_OF_FEATURES; FEATURE_DIMENSION++ ))
+	do
+    	echo "U$FEATURE_INDEX:%x[-2,$FEATURE_DIMENSION]"
+    	FEATURE_INDEX=$((FEATURE_INDEX+1))
+	done
+echo
+
+echo "# next word"
+for (( FEATURE_DIMENSION=0; FEATURE_DIMENSION<$NUMBER_OF_FEATURES; FEATURE_DIMENSION++ ))
+	do
+    	echo "U$FEATURE_INDEX:%x[1,$FEATURE_DIMENSION]"
+    	FEATURE_INDEX=$((FEATURE_INDEX+1))
+	done
+echo
+
+echo "# next next word"
+for (( FEATURE_DIMENSION=0; FEATURE_DIMENSION<$NUMBER_OF_FEATURES; FEATURE_DIMENSION++ ))
+	do
+    	echo "U$FEATURE_INDEX:%x[2,$FEATURE_DIMENSION]"
+    	FEATURE_INDEX=$((FEATURE_INDEX+1))
+	done
+echo
