@@ -17,6 +17,9 @@ import re
 
 from generate_templates import prefix_string, postfix_string, pattern
 
+reload(sys)
+sys.setdefaultencoding('utf8')
+
 def JSD(P, Q):
     _P = P / numpy.linalg.norm(P, ord=1)
     _Q = Q / numpy.linalg.norm(Q, ord=1)
@@ -54,7 +57,10 @@ def generate_query_templates(query_file, class_template_file, candidate_file, te
         
         template_to_index[(prefix, postfix)] = len(template_to_index);
         index_to_template[len(index_to_template)] = (prefix, postfix);
-        index_to_template_pattern[len(index_to_template_pattern)] = re.compile(r'(?P<prefix>%s) (?P<entity>.+) (?P<postfix>%s)' % (prefix, postfix));
+        try:
+            index_to_template_pattern[len(index_to_template_pattern)] = re.compile(r'(?P<prefix>%s) (?P<entity>.+) (?P<postfix>%s)' % (prefix, postfix));
+        except:
+            print "regex error: ", prefix, postfix
     
     print "successfully load templates..."
     
@@ -85,7 +91,10 @@ def generate_query_templates(query_file, class_template_file, candidate_file, te
 
         for template_index in index_to_template:
             #print template_index, index_to_template_pattern[template_index].pattern, fields[0]
-            matcher = re.match(index_to_template_pattern[template_index], fields[0]);
+            try:
+                matcher = re.match(index_to_template_pattern[template_index], fields[0]);
+            except:
+                print "Regex Error", index_to_template_pattern[template_index], fields[0]
             if matcher is not None:
                 entity = matcher.group("entity");
                 if entity not in candidate_to_index:
