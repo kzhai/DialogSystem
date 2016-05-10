@@ -110,7 +110,7 @@ def extract_feature_vectors_for_file(input_file_path, output_file_path, kb_cache
             
         if len(fields) == 2:
             token_labels = fields[1].split();
-            assert len(query_tokens) == len(token_labels);
+            assert len(query_tokens) == len(token_labels), (query_tokens, token_labels);
             add_token_label(query_tokens, feature_vectors, token_labels);
 
         for feature_vector in feature_vectors:

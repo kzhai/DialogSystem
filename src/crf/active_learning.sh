@@ -1,8 +1,5 @@
 #!/bin/bash
 
-PROJECT_HOME=/Users/kzhai/Workspace/DialogSystem/
-PROJECT_HOME_SRC=$PROJECT_HOME/src
-
 if [ $# == 8 ]; then
 	FEATURE_TEMPLATE=$1
 	INPUT_DIRECTORY=$2
@@ -69,7 +66,7 @@ do
 	crf_test -n $TOP_N_CANDIDATES -v1 -m $MODEL_FILE $UNLABELED_DATA > $TEMP_OUTPUT_FILE
 	
 	UNLABELED_DATA=$OUTPUT_DIRECTORY/data.unlabel.iter.$ITERATION_INDEX
-	python $PROJECT_HOME_SRC/crf/uncertainty_sampling.py \
+	python crf/uncertainty_sampling.py \
 		--predicted_file=$TEMP_OUTPUT_FILE \
 		--confused_file=$TEMP_CONFUSED_FILE \
 		--unlabel_file=$UNLABELED_DATA \
@@ -95,6 +92,6 @@ do
 	fi
 	
 	echo "evaluating on $ITERATION_INDEX"
-	#perl $PROJECT_HOME_SRC/crf/conlleval.txt -r < $TEST_OUTPUT
-	perl $PROJECT_HOME_SRC/crf/conlleval.txt < $TEST_OUTPUT
+	#perl crf/conlleval.txt -r < $TEST_OUTPUT
+	perl crf/conlleval.txt < $TEST_OUTPUT
 done

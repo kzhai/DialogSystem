@@ -1,8 +1,5 @@
 #!/bin/bash
 
-PROJECT_HOME=/Users/kzhai/Workspace/DialogSystem/
-PROJECT_HOME_SRC=$PROJECT_HOME/src
-
 if [ $# == 5 ]; then
 	FEATURE_TEMPLATE=$1
 	INPUT_DIRECTORY=$2
@@ -26,7 +23,7 @@ TESTING_DATA=$INPUT_DIRECTORY/test.dat
     
 crf_learn -a CRF-$CRF_REGULARIZER -c $CRF_HYPERPARAMETER $FEATURE_TEMPLATE $TRAINING_DATA $MODEL_FILE
 echo 'successfully trained the crf model'
-crf_test -m $MODEL_FILE $TESTING_DATA | tr "\t" " " | perl $PROJECT_HOME_SRC/crf/conlleval.txt
+crf_test -m $MODEL_FILE $TESTING_DATA | tr "\t" " " | perl crf/conlleval.txt
 
 TEMP_DIRECTORY=~/temp.$RANDOM
 mkdir $TEMP_DIRECTORY
