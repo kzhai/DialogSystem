@@ -6,4 +6,4 @@
 	
 	bash crf/generate_feature_template.sh crf/sample-data/raw.feature > crf/sample-data/feature_template
 	
-	bash crf/active_learning.sh ../output/feature_template_12 ../output/NBASports/query.label.feature ../output/NBASports/query.label.feature.active/ 10 2 least_margin
+	bash crf/active_learning.sh crf/sample-data/feature_template crf/sample-data/raw.feature/ crf/sample-data/raw.feature.active 10 2 least_margin

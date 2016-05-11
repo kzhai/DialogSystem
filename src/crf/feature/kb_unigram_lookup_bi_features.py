@@ -15,6 +15,9 @@ import unicodedata;
 def add_KB_lookup_bi_feature_description(feature_description, kb_directory):
     kb_dictionaries = collections.OrderedDict()
     for file_name in os.listdir(kb_directory):
+        if file_name.startswith("."):
+            continue;
+        
         kb_file = os.path.join(kb_directory, file_name);
         if os.path.isdir(kb_file):
             continue;
