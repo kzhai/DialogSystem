@@ -1,7 +1,7 @@
 CRF
 ==========
 
-CRF contains scripts to generate features and conduct experiments with ［CRF++ package］(http://taku910.github.io/crfpp/).
+CRF contains scripts to generate features and conduct experiments with [CRF++ package](http://taku910.github.io/crfpp/).
 
 Launch and Execute
 ----------
@@ -43,5 +43,5 @@ To run active learning script on sample data
 In practice, you may want to adjust the parameters accordingly.
 
 
-#	python crf/knowledgebase_filter.py --input_file=../output/NBASports/rank.player/ranking --output_file=../output/NBASports/knowledgebase/player --distance_threshold=0.675
-#	python crf/automatic_labeler_by_kb.py --input_file=../input/NBASports/query.dat --output_file=../output/NBASports/query.label/train.dat --kb_directory=../input/NBASports.lower/pasca/seed/ --unlabel_file=../output/NBASports/query.label/unlabel.dat
+python crf/knowledgebase_filter.py --input_file=../output/NBASports/rank.player/ranking --output_file=../output/NBASports/knowledgebase/player --distance_threshold=0.675
+python crf/automatic_labeler_by_kb.py --input_file=../input/NBASports/query.dat --output_file=../output/NBASports/query.label/train.dat --kb_directory=../input/NBASports.lower/pasca/seed/ --unlabel_file=../output/NBASports/query.label/unlabel.dat
