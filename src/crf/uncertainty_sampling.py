@@ -14,6 +14,7 @@ import shutil;
 import sys;
 import time;
 import unicodedata;
+import random
 
 '''
 function_dict = {
@@ -52,6 +53,41 @@ def least_confidence(predicted_file, heap_size):
                 if len(heap) > heap_size:
                     unlabeled.add(heapq.heappop(heap));
                 
+                label_probability = -1;
+                query_feature_string = "";
+            else:
+                tokens = line.split("\t")[:-1]
+                query_feature_string += "%s\n" % "\t".join(tokens);
+
+    return heap, unlabeled;
+
+def random_select(predicted_file, heap_size):
+    predicted_stream = codecs.open(predicted_file, 'r');
+    heap = [];
+    unlabeled = set();
+
+    label_probability = -1;
+    query_feature_string = "";
+
+    for line in predicted_stream:
+        line = line.strip();
+
+        if label_probability == -1:
+            matcher = re.match(crfpp_sequence_label_probability_pattern, line)
+            if matcher:
+                index = int(matcher.group("index"));
+                # a hack here: set random probability to have the baseline
+                probability = random.random()
+                if index == 0:
+                    label_probability = probability
+                    query_feature_string = "";
+        else:
+            if len(line) == 0:
+                heapq.heappush(heap, (1 - label_probability, query_feature_string));
+
+                if len(heap) > heap_size:
+                    unlabeled.add(heapq.heappop(heap));
+
                 label_probability = -1;
                 query_feature_string = "";
             else:
