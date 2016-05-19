@@ -8,13 +8,13 @@ import numpy;
 import operator;
 import optparse;
 import os;
+import random;
 import re;
 import scipy;
 import shutil;
 import sys;
 import time;
 import unicodedata;
-import random
 
 '''
 function_dict = {
