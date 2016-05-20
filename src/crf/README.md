@@ -14,7 +14,7 @@ To prepare the example dataset,
 	cd $PROJECT_SPACE/DialogSystem/src/crf/
 	tar zxvf sample-data.tar.gz
 
-Create following directories for future use (some of them are not necessary needed if you only run some particular scripts)
+Create following directories for future use (some of them are not necessary needed if you only run some particular scripts) under the `crf` directory
 
 	mkdir -p sample-data/raw.feature
 	mkdir -p sample-data/raw.feature.active
@@ -42,6 +42,9 @@ To run active learning script on sample data
 
 In practice, you may want to adjust the parameters accordingly.
 
+BACKUP CODES
+----------
 
-python crf/knowledgebase_filter.py --input_file=../output/NBASports/rank.player/ranking --output_file=../output/NBASports/knowledgebase/player --distance_threshold=0.675
-python crf/automatic_labeler_by_kb.py --input_file=../input/NBASports/query.dat --output_file=../output/NBASports/query.label/train.dat --kb_directory=../input/NBASports.lower/pasca/seed/ --unlabel_file=../output/NBASports/query.label/unlabel.dat
+	python crf/knowledgebase_filter.py --input_file=../output/NBASports/rank.player/ranking --output_file=../output/NBASports/knowledgebase/player --distance_threshold=0.675
+	
+	python crf/automatic_labeler_by_kb.py --input_file=../input/NBASports/query.dat --output_file=../output/NBASports/query.label/train.dat --kb_directory=../input/NBASports.lower/pasca/seed/ --unlabel_file=../output/NBASports/query.label/unlabel.dat
