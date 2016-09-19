@@ -8,17 +8,17 @@ Paşca, Marius. "Weakly-supervised discovery of named entities using web search 
 Launch and Execute
 ----------
 
-Let us assume you checked out the repo to `$PROJECT_SPACE`, i.e., `$PROJECT_SPACE/DialogSystem`.
-All following command will be operating on the source code directory level `$PROJECT_SPACE/DialogSystem/src`.
-	
+Let us assume you checked out the repo to `$PROJECT_SPACE`, i.e., `$PROJECT_SPACE/PyHogsmeade`.
+All following command will be operating on the source code directory level `$PROJECT_SPACE/PyHogsmeade/`.
+
 To prepare the example dataset,
 
-	cd $PROJECT_SPACE/DialogSystem/src/pasca/
+	cd $PROJECT_SPACE/PyHogsmeade/pasca/
 	tar zxvf sample-data.tar.gz
 
 To launch Pasca, first redirect to the directory of source code,
 
-	cd $PROJECT_SPACE/src/
+	cd $PROJECT_SPACE/PyHogsmeade/
 
 and run the following command on example dataset,
 

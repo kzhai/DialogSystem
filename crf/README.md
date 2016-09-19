@@ -6,12 +6,12 @@ CRF contains scripts to generate features and conduct experiments with [CRF++ pa
 Launch and Execute
 ----------
 
-Let us assume you checked out the repo to `$PROJECT_SPACE`, i.e., `$PROJECT_SPACE/DialogSystem`.
-All following command will be operating on the source code directory level `$PROJECT_SPACE/DialogSystem/src`.
+Let us assume you checked out the repo to `$PROJECT_SPACE`, i.e., `$PROJECT_SPACE/PyHogsmeade/`.
+All following command will be operating on the source code directory level `$PROJECT_SPACE/PyHogsmeade/`.
 
 To prepare the example dataset,
 
-	cd $PROJECT_SPACE/DialogSystem/src/crf/
+	cd $PROJECT_SPACE/PyHogsmeade/crf/
 	tar zxvf sample-data.tar.gz
 
 Create following directories for future use (some of them are not necessary needed if you only run some particular scripts) under the `crf` directory
@@ -21,7 +21,7 @@ Create following directories for future use (some of them are not necessary need
 
 To run scripts, redirect to source code directory.
 
-	cd $PROEJCT_SPACE/DialogSystem/src
+	cd $PROEJCT_SPACE/PyHogsmeade/
 
 To extract features for sample data
 
