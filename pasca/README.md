@@ -10,20 +10,19 @@ Launch and Execute
 
 To prepare the example dataset,
 
-	cd pasca/
 	tar zxvf sample-data.tar.gz
 
 To launch Pasca, run the following command on example dataset,
 
-	bash pasca/extract_entity.sh pasca/sample-data/query+count.10K pasca/sample-data/seed.team pasca/sample-data/ranking.team.10K
+	bash extract_entity.sh sample-data/query+count.10K sample-data/seed.team sample-data/ranking.team.10K
 
-The entire process takes about 4 mins on my laptop, and you should be able to find the output at `pasca/sample-data/ranking.team.10K`.
+The entire process takes about 4 mins on my laptop, and you should be able to find the output at `sample-data/ranking.team.10K`.
 
-More data would help significantly, but at a cost of longer running time. For example, if you use the entire data `pasca/sample-data/query+count.all`, it would take hours to finish, but the result is significantly improved.
+More data would help significantly, but at a cost of longer running time. For example, if you use the entire data `sample-data/query+count.all`, it would take hours to finish, but the result is significantly improved.
 
 For your reference, the extracted named entities using all data are also attached as
 
-	pasca/sample-data/ranking.player.all
-	pasca/sample-data/ranking.team.all
+	sample-data/ranking.player.all
+	sample-data/ranking.team.all
 
 Have fun!
