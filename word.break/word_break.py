@@ -31,7 +31,10 @@ def load_dictionary(dictionary_path):
     return word_set
 
 def word_break_for_file(input_path, dictionary_path, output_directory=None):
-    word_set = load_dictionary(dictionary_path);
+    if dictionary_path==None:
+        word_set = set([word.strip().lower() for word in nltk.corpus.gutenberg.words() if word.isalpha()])
+    else:
+        word_set = load_dictionary(dictionary_path);
     input_stream = open(input_path, 'r');
     for line in input_stream:
         input_line = line.strip().lower();
@@ -58,7 +61,9 @@ def word_break_for_line(input_line, word_set):
 
 if __name__ == '__main__':
     input_path = sys.argv[1]
-    dictionary_path = sys.argv[2]
-    #output_directory = sys.argv[3]
+    dictionary_path = None;
+    if len(sys.argv)==3:
+        dictionary_path = sys.argv[2]
+        #output_directory = sys.argv[3]
 
     word_break_for_file(input_path, dictionary_path);
